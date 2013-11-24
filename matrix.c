@@ -15,7 +15,7 @@ void print(double **matrix, int matrixSize){
 	int i, j;
 	for (i = 0; i < matrixSize; i++) {
 		for (j = 0; j < matrixSize; j++) {
-			printf("%.2f ", matrix[i][j]);
+			printf("%.2f\t", matrix[i][j]);
 		}
 		printf("\n");
 	}
@@ -115,7 +115,7 @@ double** transpose(double **matrix, int matrixSize){
 //Create a real positive-definite matrix.
 double** initialize(int minValue, int maxValue, int matrixSize){
 	
-	//Allocates memory for a matrices of doubles.
+	//Allocates memory for a matrix of doubles.
 	int i, j;
 	double **matrix = (double **)malloc(matrixSize * sizeof(double*));
 	double **identity = (double **)malloc(matrixSize * sizeof(double*));

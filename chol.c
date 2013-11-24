@@ -58,8 +58,8 @@ double ** cholesky(double ** A, int n){
 	trans_copy(A, L, n);
 	
 	int i,j,k;
-	for (j = 0; j < n; j++){
-		for (i = 0; i < n; i++){
+	for (i = 0; i < n; i++){
+		for (j = 0; j < n; j++){
 			if (j < i){
 				// Inner sum
 				for (k = 0; k < j; k++){
