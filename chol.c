@@ -58,8 +58,8 @@ double ** cholesky(double ** A, int n){
 	trans_copy(A, L, n);
 	
 	int i,j,k;
-	for (i = 0; i < n; i++){
-		for (j = 0; j < n; j++){
+	for (j = 0; j < n; j++){
+		for (i = 0; i < n; i++){
 			if (j < i){
 				// Inner sum
 				for (k = 0; k < j; k++){
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 
 	// set matrix size
-	int n = 10;
+	int n = 4;
 	
 	// Generate random SPD matrix
 	double** A = initialize(0, 10, n);

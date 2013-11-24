@@ -15,7 +15,7 @@ void print(double **matrix, int matrixSize){
 	int i, j;
 	for (i = 0; i < matrixSize; i++) {
 		for (j = 0; j < matrixSize; j++) {
-			printf("%.2f\t", matrix[i][j]);
+			printf("%.2f ", matrix[i][j]);
 		}
 		printf("\n");
 	}
@@ -115,18 +115,24 @@ double** transpose(double **matrix, int matrixSize){
 //Create a real positive-definite matrix.
 double** initialize(int minValue, int maxValue, int matrixSize){
 	
-	//Allocates memory for a matrix of doubles.
+	//Allocates memory for a matrices of doubles.
 	int i, j;
 	double **matrix = (double **)malloc(matrixSize * sizeof(double*));
+	double **identity = (double **)malloc(matrixSize * sizeof(double*));
 	for (i = 0; i < matrixSize; i++){
 		matrix[i] = (double *) malloc(matrixSize * sizeof(double));
-	}
+		identity[i] = (double *) malloc(matrixSize * sizeof(double));
+	}	
 	
-	//Creates an upper-triangular matrix of random numbers between minValue and maxValue.	
+	//Creates an upper-triangular matrix of random numbers between minValue and maxValue.
+	//Creates an identity matrix multiplied by maxValue.		
 	double random;
 	for(i = 0 ; i < matrixSize ; i++){
+		
+		identity[i][i] = matrixSize * maxValue;	
+		
 		for(j = 0 ; j < matrixSize ; j++){
-			if(i <= j){
+			if(i < matrixSize){
 				random = (maxValue - minValue) * 
 					((double)rand() / (double)RAND_MAX) + minValue;
 				if(random == 0.0){
@@ -135,11 +141,15 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 				matrix[i][j] = random;
 			}
 		}
-	}
+	}	
+	
+	printf("max value %d \n", maxValue); //Test
+	print(identity, matrixSize); //Test;
 	
 	//Transform to positive-definite.
 	double **transposed = transpose(matrix, matrixSize);	
-	matrix = matrixMultiply(matrix, transposed, matrixSize);
+	matrix = matrixAddition(matrix, transposed, matrixSize);
+	matrix = matrixAddition(matrix, identity, matrixSize);	
 	
 	return matrix;
 }
@@ -153,8 +163,8 @@ int test (int argc, char **argv){
 	}
 
 	int matrixSize = atoi(argv[1]);	
-	if(matrixSize < 1 || matrixSize > 5000){
-		printf("Error. Matrix size invalid. Input value from 1 to 5000.");
+	if(matrixSize < 1 || matrixSize > 20000){
+		printf("Error. Matrix size invalid. Input value from 1 to 20000.");
 		return -1;
 	}	
 	
