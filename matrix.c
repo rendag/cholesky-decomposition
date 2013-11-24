@@ -132,19 +132,14 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 		identity[i][i] = maxValue * matrixSize;	
 		
 		for(j = 0 ; j < matrixSize ; j++){
-			if(i <= j){
-				random = (maxValue - minValue) * 
-					((double)rand() / (double)RAND_MAX) + minValue;
-				if(random == 0.0){
-					random = 1.0; //Avoid division by 0.
-				}
-				matrix[i][j] = random;
-			}
+			
+			random = (maxValue - minValue) * 
+				((double)rand() / (double)RAND_MAX) + minValue;
+			if(random == 0.0){
+				random = 1.0; //Avoid division by 0.
+			}			
 		}
-	}	
-	
-	printf("max value %d \n", maxValue); //Test
-	print(identity, matrixSize); //Test;
+	}
 	
 	//Transform to positive-definite.
 	double **transposed = transpose(matrix, matrixSize);	
