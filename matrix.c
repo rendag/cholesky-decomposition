@@ -2,14 +2,14 @@
 
 //Print a square matrix.
 void print(double **matrix, int matrixSize){
-	int i, j;
-	for (i = 0; i < matrixSize; i++) {
-		for (j = 0; j < matrixSize; j++) {
-			printf("%.2f\t", matrix[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
+    int i, j;
+    for (i = 0; i < matrixSize; i++) {
+            for (j = 0; j < matrixSize; j++) {
+                    printf("%.2f\t", matrix[i][j]);
+            }
+            printf("\n");
+    }
+    printf("\n");
 }
 
 //Multiply two square matrices of the same size.
@@ -104,8 +104,8 @@ double** transpose(double **matrix, int matrixSize){
 
 //Create a real positive-definite matrix.
 double** initialize(int minValue, int maxValue, int matrixSize){
-	
-	//Allocates memory for a matrices of doubles.
+        
+    //Allocates memory for a matrices of doubles.
 	int i, j;
 	double **matrix = (double **)malloc(matrixSize * sizeof(double*));
 	double **identity = (double **)malloc(matrixSize * sizeof(double*));
@@ -122,17 +122,16 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 		identity[i][i] = maxValue * matrixSize;	
 		
 		for(j = 0 ; j < matrixSize ; j++){
-			if(i <= j){
-				random = (maxValue - minValue) * 
-					((double)rand() / (double)RAND_MAX) + minValue;
-				if(random == 0.0){
-					random = 1.0; //Avoid division by 0.
-				}
-				matrix[i][j] = random;
+			
+			random = (maxValue - minValue) * 
+				((double)rand() / (double)RAND_MAX) + minValue;
+			if(random == 0.0){
+				random = 1.0; //Avoid division by 0.
 			}
+			matrix[i][j] = random;
 		}
 	}	
-	
+		
 	//Transform to positive-definite.
 	double **transposed = transpose(matrix, matrixSize);	
 	matrix = matrixAddition(matrix, transposed, matrixSize);
