@@ -149,9 +149,6 @@ void cholMPI(double ** L, int n, int argc, char ** argv){
 				proc++;
 			}
 		}
-		
-		// Wait until every process is done updating its matrix
-		MPI_Barrier(MPI_COMM_WORLD);
 	}
 	
 	MPI_Finalize();
