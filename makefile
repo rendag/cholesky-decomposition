@@ -1,2 +1,2 @@
 chol: chol.c matrix.c
-	gcc -Wall -o "chol" "chol.c" "matrix.c" -lm -ggdb
+	mpicc -Wall -o "chol" "chol.c" "matrix.c" -lm -ggdb
