@@ -1,9 +1,7 @@
 #include "cholMPI.h"
 
-double ** cholMPI(double ** A, int n, int argc, char ** argv){
-	// Copy matrix A and take only lower triangular part
-	double ** L = initMatrix(n);
-	transCopy(A, L, n);
+void cholMPI(double ** L, int n, int argc, char ** argv){
+	// Warning: cholMPI() acts directly on the given matrix! 
 	
 	int npes, rank;
 	MPI_Init(&argc, &argv);
@@ -13,6 +11,16 @@ double ** cholMPI(double ** A, int n, int argc, char ** argv){
 	// For each column
 	int i, j, k;
 	for (j = 0; j < n; j++) {
+	
+		/*
+		 * Step 0: 
+		 * Fill the entries above the diagonal with zeroes
+		 */
+		 
+		 for (i = 0; i < j; i++) {
+		 	L[i][j] = 0.0;
+		 }
+		 
 	
 		/*
 		 * Step 1:
@@ -58,6 +66,9 @@ double ** cholMPI(double ** A, int n, int argc, char ** argv){
 				mymin = (j+1) + rank;
 				mymax = mymin + 1;
 			}
+			
+			// There's no extra work to be done
+			extraWork = 0;
 		}
 		// There are equal or more elements to compute than the 
 		// number of processes
@@ -144,6 +155,4 @@ double ** cholMPI(double ** A, int n, int argc, char ** argv){
 	}
 	
 	MPI_Finalize();
-	
-	return L;
 }

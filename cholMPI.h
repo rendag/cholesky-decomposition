@@ -5,4 +5,4 @@ typedef int bool;
 #define true 1
 #define false 0
 
-double ** cholMPI(double ** A, int n, int argc, char ** argv);
+void cholMPI(double ** L, int n, int argc, char ** argv);

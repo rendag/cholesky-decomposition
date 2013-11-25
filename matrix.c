@@ -159,3 +159,13 @@ void transCopy(double ** source, double ** dest, int size){
 		}
 	}
 }
+
+void copyMatrix(double ** source, double ** dest, int size){
+	int i,j;
+	
+	for (i = 0; i < size; i++){
+		for (j = 0; j < size; j++){
+			dest[i][j] = source[i][j];
+		}
+	}
+}

@@ -15,7 +15,9 @@ int main(int argc, char **argv)
 	print(A, n);
 	
 	// Apply Cholesky
-	double** L = cholMPI(A, n, argc, argv);
+	double** L = initialize(0, 10, n);
+	copyMatrix(A, L, n);
+	cholMPI(L, n, argc, argv); // Warning: cholMPI() acts directly on the given matrix
 	printf("L = \n");
 	print(L, n);
 	
