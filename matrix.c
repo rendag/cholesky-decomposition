@@ -137,7 +137,8 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 				((double)rand() / (double)RAND_MAX) + minValue;
 			if(random == 0.0){
 				random = 1.0; //Avoid division by 0.
-			}			
+			}
+			matrix[i][j] = random;
 		}
 	}	
 		
