@@ -111,6 +111,49 @@ double** transpose(double **matrix, int matrixSize){
 	return matrixOut;		
 }
 
+double computeSumofAbsError( double* vector1 , double* vector2, int size)
+{
+    int i;
+    double sumOfAbsError = 0;
+    for(i = 0; i< size; i++)
+    {
+        sumOfAbsError += fabs(vector2[i] - vector1[i]);
+    }
+
+    return sumOfAbsError;
+}
+
+//Multiply a Matrix with a Vector 
+double* matrixVectorMultiply(double **matrix1, double *vector , int matrixSize){
+	
+	//Allocates memory for a vector of doubles.
+	int i, j;
+	double *vectorOut = (double *)malloc(matrixSize * sizeof(double*));
+
+	
+	double result = 0;
+	//Fill each cell of the matrix output.
+	for(i = 0 ; i < matrixSize ; i++){ 
+		for (j = 0; j < matrixSize ; j++){
+		//Multiply each row of matrix 1 with each element of vector
+			result += matrix1[i][j] * vector[j];	
+		}
+		vectorOut[i] = result;
+		result = 0; //Reset;
+	}	
+	
+	return vectorOut;		
+}
+void print_vector(double *vector, int size){
+	int i;	
+	
+	for (i = 0; i < size; i++){
+	    printf("\t%10.6f", vector[i]);
+		printf("\n");
+	}
+	
+	printf("\n");
+}
 
 //Create a real positive-definite matrix.
 double** initialize(int minValue, int maxValue, int matrixSize){
@@ -143,8 +186,8 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 		}
 	}	
 	
-	printf("max value %d \n", maxValue); //Test
-	print(identity, matrixSize); //Test;
+    //printf("max value %d \n", maxValue); //Test
+	//print(identity, matrixSize); //Test;
 	
 	//Transform to positive-definite.
 	double **transposed = transpose(matrix, matrixSize);	
