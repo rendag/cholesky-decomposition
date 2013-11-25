@@ -105,16 +105,22 @@ double** transpose(double **matrix, int matrixSize){
 //Create a real positive-definite matrix.
 double** initialize(int minValue, int maxValue, int matrixSize){
 	
-	//Allocates memory for a matrix of doubles.
+	//Allocates memory for a matrices of doubles.
 	int i, j;
 	double **matrix = (double **)malloc(matrixSize * sizeof(double*));
+	double **identity = (double **)malloc(matrixSize * sizeof(double*));
 	for (i = 0; i < matrixSize; i++){
 		matrix[i] = (double *) malloc(matrixSize * sizeof(double));
-	}
+		identity[i] = (double *) malloc(matrixSize * sizeof(double));
+	}	
 	
-	//Creates an upper-triangular matrix of random numbers between minValue and maxValue.	
+	//Creates an upper-triangular matrix of random numbers between minValue and maxValue.
+	//Creates an identity matrix multiplied by maxValue.		
 	double random;
 	for(i = 0 ; i < matrixSize ; i++){
+		
+		identity[i][i] = maxValue * matrixSize;	
+		
 		for(j = 0 ; j < matrixSize ; j++){
 			if(i <= j){
 				random = (maxValue - minValue) * 
@@ -125,11 +131,12 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 				matrix[i][j] = random;
 			}
 		}
-	}
+	}	
 	
 	//Transform to positive-definite.
 	double **transposed = transpose(matrix, matrixSize);	
-	matrix = matrixMultiply(matrix, transposed, matrixSize);
+	matrix = matrixAddition(matrix, transposed, matrixSize);
+	matrix = matrixAddition(matrix, identity, matrixSize);	
 	
 	return matrix;
 }
