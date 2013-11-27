@@ -5,8 +5,6 @@ double ** cholSerial(double ** A, int n){
 	double ** L = init_matrix(n);
 	trans_copy(A, L, n);
 	
-	time(&start);
-	
 	int i,j,k;
 	for (j = 0; j < n; j++){
 		
@@ -24,7 +22,5 @@ double ** cholSerial(double ** A, int n){
 		}
 	}
 	
-	time(&stop);
-
 	return L;
 } 
