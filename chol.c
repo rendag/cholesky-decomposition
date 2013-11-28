@@ -1,4 +1,4 @@
-
+#include "cholSerial.h"
 #include "cholMPI.h"
 
 int main(int argc, char **argv)
@@ -13,6 +13,7 @@ int main(int argc, char **argv)
 	double** A = initialize(0, 10, n);
 	/*printf("A = \n");
 	print(A, n);*/
+
 	
 	// Apply Cholesky
 	double** L = initialize(0, 10, n);
@@ -30,6 +31,7 @@ int main(int argc, char **argv)
 	double ** LLT = matrixMultiply(L, transpose(L, n), n);
 	/*printf("L*L^T = \n");
 	print(LLT, n);*/
+	cholMPI(L, n, argc, argv); // Warning: cholMPI() acts directly on the given matrix
 
 	return 0;
 }

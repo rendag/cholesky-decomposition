@@ -1,11 +1,12 @@
-#include "cholSerial.h"
-
-double ** cholSerial(double ** A, int n){
+double ** chol_omp(double ** A, int n){
 	// Copy matrix A and take only lower triangular part
 	double ** L = init_matrix(n);
 	trans_copy(A, L, n);
 	
+	time(&start);
+	
 	int i,j,k;
+	#pragma omp parallel for shared(L) private(j)
 	for (j = 0; j < n; j++){
 		
 		for (k = 0; k < j; k++){
@@ -23,4 +24,4 @@ double ** cholSerial(double ** A, int n){
 	}
 	
 	return L;
-} 
+}
