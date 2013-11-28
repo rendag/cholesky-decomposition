@@ -2,12 +2,14 @@
 
 void cholMPI(double ** L, int n, int argc, char ** argv){
 	// Warning: cholMPI() acts directly on the given matrix! 
-	
+	double start, end ;
 	int npes, rank;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &npes);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	
+	MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
+    start = MPI_Wtime();
 	// For each column
 	int i, j, k;
 	for (j = 0; j < n; j++) {
@@ -152,7 +154,12 @@ void cholMPI(double ** L, int n, int argc, char ** argv){
 		
 		// Wait until every process is done updating its matrix
 		MPI_Barrier(MPI_COMM_WORLD);
+        end = MPI_Wtime();
 	}
 	
 	MPI_Finalize();
+	
+		if (rank == 0) {
+			printf("Runtime = %d\n", end-start);
+		}
 }
