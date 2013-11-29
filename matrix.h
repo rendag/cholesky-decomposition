@@ -12,3 +12,7 @@ double** initialize(int minValue, int maxValue, int matrixSize);
 double** initMatrix(int size);
 void transCopy(double ** source, double ** dest, int size);
 void copyMatrix(double ** source, double ** dest, int size);
+
+//Vector functions
+void printVector(double *vector, int size);
+double computeSumofAbsError( double* vector1 , double* vector2, int size);

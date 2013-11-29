@@ -2,8 +2,8 @@
 
 double ** cholSerial(double ** A, int n){
 	// Copy matrix A and take only lower triangular part
-	double ** L = init_matrix(n);
-	trans_copy(A, L, n);
+	double ** L = initMatrix(n);
+	transCopy(A, L, n);
 	
 	int i,j,k;
 	for (j = 0; j < n; j++){

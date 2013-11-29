@@ -139,6 +139,46 @@ double** initialize(int minValue, int maxValue, int matrixSize){
 	
 	return matrix;
 }
+//Computes the sum of Absolute error between 2 vectors 
+double vectorComputeSumofAbsError( double* vector1 , double* vector2, int size)
+{
+    int i;
+    double sumOfAbsError = 0;
+    for(i = 0; i< size; i++)
+    {
+        sumOfAbsError += fabs(vector2[i] - vector1[i]);
+    }
+
+    return sumOfAbsError;
+}
+
+//Computes the sum of Absolute error between 2 matrices 
+void ComputeSumOfAbsError( double** matrix1 , double** matrix2, int size)
+{
+    printf("Matrix 1 :\n");
+    int i,j;
+    double sumOfAbsError = 0;
+    for(i = 0; i< size; i++)
+    {
+        for(j= 0; j< size; j++)
+        {
+           sumOfAbsError += fabs(matrix1[i][j] - matrix2[i][j]);
+        }
+        
+    }
+    printf("The sum of absolute error  is %10.6f\n", sumOfAbsError);
+}
+
+void printVector(double *vector, int size){
+        int i;        
+        
+        for (i = 0; i < size; i++){
+         printf("\t%10.6f", vector[i]);
+                printf("\n");
+        }
+        
+        printf("\n");
+}
 
 double** initMatrix(int size){
 	double **matrix = (double **)malloc(size * sizeof(double *));

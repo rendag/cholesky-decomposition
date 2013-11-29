@@ -1,17 +1,24 @@
 #include "cholMPI.h"
 
-void cholMPI(double ** L, int n, int argc, char ** argv){
+void cholMPI(double ** A,double ** L, int n, int argc, char ** argv){
 	// Warning: cholMPI() acts directly on the given matrix! 
-	double start, end ;
 	int npes, rank;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &npes);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	
-
-	MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
-    start = MPI_Wtime();
-
+	double start, end;	
+	MPI_Barrier(MPI_COMM_WORLD); /* Timing */
+	if (rank == 0) {
+		start = MPI_Wtime();
+		
+		
+		/*// Test
+		printf("A = \n");
+		print(L, n);*/
+		
+	}
+	
 	// For each column
 	int i, j, k;
 	for (j = 0; j < n; j++) {
@@ -63,58 +70,35 @@ void cholMPI(double ** L, int n, int argc, char ** argv){
 	MPI_Barrier(MPI_COMM_WORLD); /* Timing */
 	if (rank == 0){	
 		end = MPI_Wtime();
-		
-		/*
-<<<<<<< HEAD
-		 * Step 3:
-		 * Broadcast each process' results to all other processes
-		 */
-		
-		int proc;
-		
-		// Check if there are more processes than updated elements
-		if (numElements < npes) {
-			proc = 0;
-			
-			// Broadcast each process' work
-			for (i = j+1; i < n; i++) {
-				MPI_Bcast(&L[i][j], 1, MPI_DOUBLE, proc, MPI_COMM_WORLD);
-				proc++;
-			}
-		}
-		// There's more updated elements than processes
-		else {
-			proc = 0;
-			k = 0;
-			
-			// Broadcast each process' work
-			for (i = j+1; i < (j+1) + (elementsPerProcess*npes); i++) {
-				if (k == elementsPerProcess) {
-					k = 0;
-					proc++;
-				}
-					
-				MPI_Bcast(&L[i][j], 1, MPI_DOUBLE, proc, MPI_COMM_WORLD);
-				k++;
-			}
-			
-			proc = 0;
-			
-			// Broadcast the extrawork 
-			for (i = j+1 + elementsPerProcess * npes; i < n; i++) {
-				MPI_Bcast(&L[i][j], 1, MPI_DOUBLE, proc, MPI_COMM_WORLD);
-				proc++;
-			}
-		}
-		
-		// Wait until every process is done updating its matrix
-		MPI_Barrier(MPI_COMM_WORLD);
-        end = MPI_Wtime();
+		printf("Testing OpenMpi implementation Output: \n");
+		printf("Runtime = %lf\n", end-start);
+		printf("Testing MPI implementation Output: ");
+		testBasicOutput(A,L,n);
+        // Test
+        /*double ** LLT = matrixMultiply(L, transpose(L, n), n);
+        printf("L*L^T = \n");
+        print(LLT, n);*/
+        
 	}
 
 	MPI_Finalize();
-	
-		if (rank == 0) {
-			printf("Runtime = %d\n", end-start);
-		}
+}
+int testBasicOutput(double **A, double ** L, int n)
+{
+    double ** LLT = matrixMultiply(L, transpose(L, n), n);
+  
+    int i, j;
+    float precision = 0.0000001;
+    for (i = 0; i < n; i++){
+                for (j = 0; j < n; j++){
+                        if( !(abs(LLT[i][j] - A[i][j]) < precision))
+                        {
+                         printf("FAILED\n");
+                         ComputeSumOfAbsError(A,LLT,n);
+                         return 0;
+                        }
+                }
+        }
+        printf("PASSED\n");
+        return 1;
 }
