@@ -1,8 +1,7 @@
 #include "cholMPI.h"
 
-void cholMPI(double ** L, int n, int argc, char ** argv){
+void cholMPI(double ** A,double ** L, int n, int argc, char ** argv){
 	// Warning: cholMPI() acts directly on the given matrix! 
-	
 	int npes, rank;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &npes);
@@ -13,11 +12,11 @@ void cholMPI(double ** L, int n, int argc, char ** argv){
 	if (rank == 0) {
 		start = MPI_Wtime();
 		
-		/*
-		// Test
+		
+		/*// Test
 		printf("A = \n");
-		print(L, n);
-		*/
+		print(L, n);*/
+		
 	}
 	
 	// For each column
@@ -71,15 +70,35 @@ void cholMPI(double ** L, int n, int argc, char ** argv){
 	MPI_Barrier(MPI_COMM_WORLD); /* Timing */
 	if (rank == 0){	
 		end = MPI_Wtime();
+		printf("Testing OpenMpi implementation Output: \n");
 		printf("Runtime = %lf\n", end-start);
-		
-		/*
+		printf("Testing MPI implementation Output: ");
+		testBasicOutput(A,L,n);
         // Test
-        double ** LLT = matrixMultiply(L, transpose(L, n), n);
+        /*double ** LLT = matrixMultiply(L, transpose(L, n), n);
         printf("L*L^T = \n");
-        print(LLT, n);
-        */
+        print(LLT, n);*/
+        
 	}
 
 	MPI_Finalize();
+}
+int testBasicOutput(double **A, double ** L, int n)
+{
+    double ** LLT = matrixMultiply(L, transpose(L, n), n);
+  
+    int i, j;
+    float precision = 0.0000001;
+    for (i = 0; i < n; i++){
+                for (j = 0; j < n; j++){
+                        if( !(abs(LLT[i][j] - A[i][j]) < precision))
+                        {
+                         printf("FAILED\n");
+                         ComputeSumOfAbsError(A,LLT,n);
+                         return 0;
+                        }
+                }
+        }
+        printf("PASSED\n");
+        return 1;
 }

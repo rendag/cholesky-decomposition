@@ -1,2 +1,2 @@
-chol: chol.c cholMPI.c matrix.c
-	mpicc -Wall -o "chol" "chol.c" "cholMPI.c" "matrix.c" -lm -ggdb
+chol: tests.c cholMPI.c matrix.c cholSerial.c cholOMP.c 
+	mpicc -Wall -o "chol" "tests.c" "cholMPI.c" "matrix.c" "cholSerial.c" "cholOMP.c" -lm -ggdb -fopenmp
