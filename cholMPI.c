@@ -1,4 +1,5 @@
-#include "cholMPI.h"
+#include <mpi.h>
+#include "matrix.h"
 
 void cholMPI(double ** A,double ** L, int n, int argc, char ** argv){
 	// Warning: cholMPI() acts directly on the given matrix! 

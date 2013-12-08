@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     clock_gettime(CLOCK_MONOTONIC, &begin);
     cholOMP(L, matrixSize);
     clock_gettime(CLOCK_MONOTONIC, &end); //Get the current time.
-    //testBasicOutputOfChol(A,L,matrixSize);
+    testBasicOutputOfChol(A,L,matrixSize);
     
     //Test execution time
     printf("The OpenMP computation took %.5f seconds \n",
